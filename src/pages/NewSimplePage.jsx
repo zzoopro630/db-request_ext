@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Trash2 } from 'lucide-react';
+import { Trash2, Eye } from 'lucide-react';
+import ImageModal from '@/components/ui/image-modal';
 
 // --- Data --- //
 const affiliations = ["GOAT", "감동", "다올", "다원", "달", "라온", "유럽", "직할", "캐슬", "해성", "혜윰"];
@@ -44,6 +45,7 @@ const NewSimplePage = () => {
   const [displayErrors, setDisplayErrors] = useState({});
   const [nameEnglishWarning, setNameEnglishWarning] = useState('');
   const [emailKoreanWarning, setEmailKoreanWarning] = useState('');
+  const [imageModal, setImageModal] = useState({ isOpen: false, imageSrc: '', imageAlt: '' });
 
   // --- Effects --- //
   // Recalculate total when list changes
@@ -173,6 +175,14 @@ const NewSimplePage = () => {
       });
   };
 
+  const openImageModal = (imageSrc, imageAlt) => {
+    setImageModal({ isOpen: true, imageSrc, imageAlt });
+  };
+
+  const closeImageModal = () => {
+    setImageModal({ isOpen: false, imageSrc: '', imageAlt: '' });
+  };
+
   // --- JSX --- //
   return (
     <div className="min-h-screen bg-white p-4">
@@ -187,8 +197,41 @@ const NewSimplePage = () => {
               <div className="p-4 border rounded-md space-y-4">
                 <h3 className="font-semibold">DB 선택</h3>
                 <RadioGroup value={selectedDbType} onValueChange={(v) => {setSelectedDbType(v); setSelectedType(''); setSelectedRegion(''); setResetCounter(prev => prev + 1);}} className="flex space-x-4">
-                    <div className="flex items-center space-x-2"><RadioGroupItem value="A" id="db-a" /><Label htmlFor="db-a">A업체</Label></div>
-                    <div className="flex items-center space-x-2"><RadioGroupItem value="B" id="db-b" /><Label htmlFor="db-b">B업체</Label></div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="A" id="db-a" />
+                      <Label htmlFor="db-a">A업체</Label>
+                      <Button
+                        type="button"
+                        size="sm"
+                        onClick={() => openImageModal('/as-a.png', 'A업체 정보')}
+                        className="ml-2 h-6 px-2 text-xs bg-red-600 hover:bg-red-700 text-white border-red-600"
+                      >
+                        <Eye className="h-3 w-3 mr-1" />
+                        AS조건
+                      </Button>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="B" id="db-b" />
+                      <Label htmlFor="db-b">B업체</Label>
+                      <Button
+                        type="button"
+                        size="sm"
+                        onClick={() => openImageModal('/as-b-1.png', 'B업체 정보 1')}
+                        className="ml-2 h-6 px-2 text-xs bg-red-600 hover:bg-red-700 text-white border-red-600"
+                      >
+                        <Eye className="h-3 w-3 mr-1" />
+                        AS필독
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        onClick={() => openImageModal('/as-b-2.png', 'B업체 정보 2')}
+                        className="ml-2 h-6 px-2 text-xs bg-red-600 hover:bg-red-700 text-white border-red-600"
+                      >
+                        <Eye className="h-3 w-3 mr-1" />
+                        AS조건
+                      </Button>
+                    </div>
                 </RadioGroup>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -274,6 +317,13 @@ const NewSimplePage = () => {
           </CardContent>
         </Card>
       </div>
+
+      <ImageModal
+        isOpen={imageModal.isOpen}
+        onClose={closeImageModal}
+        imageSrc={imageModal.imageSrc}
+        imageAlt={imageModal.imageAlt}
+      />
     </div>
   );
 };

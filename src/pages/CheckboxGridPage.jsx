@@ -4,8 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Trash2 } from 'lucide-react';
+import { Trash2, Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ImageModal from '@/components/ui/image-modal';
 import {
   Accordion,
   AccordionContent,
@@ -66,7 +67,7 @@ const SummaryComponent = ({
   );
 };
 
-const CheckboxList = React.memo(({ selections, onCheckboxChange }) => {
+const CheckboxList = React.memo(({ selections, onCheckboxChange, onImageClick }) => {
   return (
     <div className="space-y-6">
       {Object.entries(companyTypes).map(([dbType, types]) => (
@@ -78,6 +79,38 @@ const CheckboxList = React.memo(({ selections, onCheckboxChange }) => {
             </div>
           </div>
           <div className="p-4 bg-white">
+            <div className="flex gap-2 mb-4">
+              {dbType === 'A' && (
+                <Button
+                  size="sm"
+                  onClick={() => onImageClick('/as-a.png', 'A업체 정보')}
+                  className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white border-red-600"
+                >
+                  <Eye className="h-4 w-4" />
+                  AS조건
+                </Button>
+              )}
+              {dbType === 'B' && (
+                <>
+                  <Button
+                    size="sm"
+                    onClick={() => onImageClick('/as-b-1.png', 'B업체 정보 1')}
+                    className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white border-red-600"
+                  >
+                    <Eye className="h-4 w-4" />
+                    AS필독
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => onImageClick('/as-b-2.png', 'B업체 정보 2')}
+                    className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white border-red-600"
+                  >
+                    <Eye className="h-4 w-4" />
+                    AS조건
+                  </Button>
+                </>
+              )}
+            </div>
             {dbType === 'A' && (
               <div className="text-sm text-gray-700 bg-gray-100 p-3 rounded-md mb-4">
                 <p className="font-bold">A/S 불가 항목</p>
@@ -129,15 +162,16 @@ const CheckboxList = React.memo(({ selections, onCheckboxChange }) => {
   );
 });
 
-const CheckboxGridPage = ({ 
+const CheckboxGridPage = ({
   onNext,
   selectedItems,
   selections,
   onCheckboxChange,
   onQuantityChange,
-  onRemoveItem 
+  onRemoveItem
 }) => {
   const [total, setTotal] = useState(0);
+  const [imageModal, setImageModal] = useState({ isOpen: false, imageSrc: '', imageAlt: '' });
 
   useEffect(() => {
     const newTotal = selectedItems.reduce((sum, item) => sum + item.total, 0);
@@ -148,6 +182,14 @@ const CheckboxGridPage = ({
     if (selectedItems.length > 0) {
       onNext();
     }
+  };
+
+  const openImageModal = (imageSrc, imageAlt) => {
+    setImageModal({ isOpen: true, imageSrc, imageAlt });
+  };
+
+  const closeImageModal = () => {
+    setImageModal({ isOpen: false, imageSrc: '', imageAlt: '' });
   };
 
   const summaryProps = {
@@ -173,7 +215,7 @@ const CheckboxGridPage = ({
         <motion.div layout className={selectedItems.length > 0 ? "lg:w-2/3" : "lg:w-full lg:max-w-3xl"}>
           <Card className="border-gray-300">
             <CardContent className="pt-6 space-y-6 pb-96 lg:pb-6">
-              <CheckboxList selections={selections} onCheckboxChange={onCheckboxChange} />
+              <CheckboxList selections={selections} onCheckboxChange={onCheckboxChange} onImageClick={openImageModal} />
             </CardContent>
           </Card>
         </motion.div>
@@ -212,6 +254,13 @@ const CheckboxGridPage = ({
           )}
         </AnimatePresence>
       </div>
+
+      <ImageModal
+        isOpen={imageModal.isOpen}
+        onClose={closeImageModal}
+        imageSrc={imageModal.imageSrc}
+        imageAlt={imageModal.imageAlt}
+      />
     </>
   );
 };
