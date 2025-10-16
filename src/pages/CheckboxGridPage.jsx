@@ -209,7 +209,15 @@ const CheckboxGridPage = ({
         </div>
       </div>
 
-      <p className="text-sm text-center text-gray-600 mb-8">» 상품을 클릭하시면 지역을 선택하실 수 있습니다.</p>
+      <p className="text-sm text-center text-gray-600 mb-2">» 상품을 클릭하시면 지역을 선택하실 수 있습니다.</p>
+
+      <div className="max-w-3xl mx-auto mb-8 px-4">
+        <div className="bg-blue-50 border-l-4 border-blue-500 p-3">
+          <p className="text-sm text-blue-800">
+            ℹ️ 모든 DB는 최소 5개부터 신청 가능합니다.
+          </p>
+        </div>
+      </div>
 
       <div className="max-w-7xl mx-auto lg:flex lg:gap-8 px-4 lg:justify-center">
         <motion.div layout className={selectedItems.length > 0 ? "lg:w-2/3" : "lg:w-full lg:max-w-3xl"}>
