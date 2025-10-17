@@ -27,7 +27,7 @@ const transporter = nodemailer.createTransport({
 
 app.post('/api/send-email', async (req, res) => {
   // Note: The endpoint is now /api/send-email, which matches the filename.
-  const { name, affiliation, phone, email, items_summary, total } = req.body;
+  const { name, position, affiliation, phone, email, items_summary, total } = req.body;
   const formattedDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 
   // 1. Email to Admin
@@ -38,6 +38,7 @@ app.post('/api/send-email', async (req, res) => {
     html: `
       <h2>새로운 DB 신청이 접수되었습니다.</h2>
       <p><strong>신청자:</strong> ${name}</p>
+      <p><strong>직급:</strong> ${position}</p>
       <p><strong>소속:</strong> ${affiliation}</p>
       <p><strong>연락처:</strong> ${phone}</p>
       <p><strong>이메일:</strong> ${email}</p>

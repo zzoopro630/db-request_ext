@@ -6,7 +6,7 @@ import { navItems } from "./nav-items";
 import Index from "./pages/Index";
 import HistoryPage from "./pages/HistoryPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
-import CheckboxGridPage from "./pages/CheckboxGridPage";
+import ProductList from "./pages/ProductList";
 
 const queryClient = new QueryClient();
 

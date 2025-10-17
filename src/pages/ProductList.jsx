@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Trash2, Eye } from 'lucide-react';
+import { Trash2, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ImageModal from '@/components/ui/image-modal';
 import {
@@ -18,13 +18,13 @@ const regions = ["서울/인천/경기", "대전/충청", "광주/전남", "전�
 const companyTypes = {
   A: [{ name: "[보장분석] 일반", price: 85000, description: "‘보장분석’, ‘방문상담’, ‘숨은보험금 찾기’, ‘환급금 안내’ 등 다양한 컨셉으로 고객과 접촉하여 확보한 DB"  }],
   B: [
-    { name: "[보장분석] 3주납품", price: 80000, description: "64~89년생 / 다양한 연령대 / 3주 이내 납품 완료 DB" },
-    { name: "[보장분석] 실버", price: 55000, description: "57~63년생 / 보험 니즈 높은 고연령대 DB"  },
-    { name: "[보장분석] 중장년", price: 90000, description: "64~79년생 / 보험 관심 높은 중장년 DB"  },
-    { name: "[보장분석] 여성100%", price: 85000, description: "64~89년생 / 보험 니즈가 높은 여성 DB"  },
-    { name: "[보장분석] 보험료20만원이상", price: 90000, description: "64~89년생 / 보험료 20만원 이상 납입 DB"  },
-    { name: "[보장분석] 방문확정", price: 95000, description: "64~89년생 / 시간,장소 약속이 확정된 DB"  },
-    { name: "[보장분석] 화재보험", price: 80000, description: "64~89년생 / 화재보험(1년/일반화재) 무료가입 멘트로 확보된 DB / 보험료 1만원 설계사 부담"  },
+    { name: "3주납품", price: 80000, description: "64~89년생 / 보장분석 / 다양한 연령대 / 3주 이내 납품 완료 DB" },
+    { name: "실버", price: 55000, description: "57~63년생 / 보장분석 / 보험 니즈 높은 고연령대 DB"  },
+    { name: "중장년", price: 90000, description: "64~79년생 / 보장분석 / 보험 관심 높은 중장년 DB"  },
+    { name: "여성100%", price: 85000, description: "64~89년생 / 보장분석 / 보험 니즈가 높은 여성 DB"  },
+    { name: "보험료20만원이상", price: 90000, description: "64~89년생 / 보장분석 / 보험료 20만원 이상 납입 DB"  },
+    { name: "방문확정", price: 95000, description: "64~89년생 / 보장분석 / 시간,장소 약속이 확정된 DB"  },
+    { name: "화재보험", price: 80000, description: "64~89년생 / 보장분석 / 화재보험(1년/일반화재) 무료가입 멘트로 확보된 DB / 보험료 1만원 설계사 부담"  },
   ]
 };
 
@@ -89,7 +89,7 @@ const CheckboxList = React.memo(({ selections, onCheckboxChange, onImageClick })
                   onClick={() => onImageClick('/as-a.png', 'A업체 정보')}
                   className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white border-red-600"
                 >
-                  <Eye className="h-4 w-4" />
+                  <Check className="h-4 w-4" />
                   AS조건
                 </Button>
               )}
@@ -100,7 +100,7 @@ const CheckboxList = React.memo(({ selections, onCheckboxChange, onImageClick })
                     onClick={() => onImageClick('/as-b-1.png', 'B업체 정보 1')}
                     className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white border-red-600"
                   >
-                    <Eye className="h-4 w-4" />
+                    <Check className="h-4 w-4" />
                     AS필독
                   </Button>
                   <Button
@@ -108,7 +108,7 @@ const CheckboxList = React.memo(({ selections, onCheckboxChange, onImageClick })
                     onClick={() => onImageClick('/as-b-2.png', 'B업체 정보 2')}
                     className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white border-red-600"
                   >
-                    <Eye className="h-4 w-4" />
+                    <Check className="h-4 w-4" />
                     AS조건
                   </Button>
                 </>

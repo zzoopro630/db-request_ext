@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import CheckboxGridPage from './CheckboxGridPage'; // 1단계 컴포넌트
+import ProductList from './ProductList'; // 1단계 컴포넌트
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -34,7 +34,7 @@ const AnimatedFormField = ({ children }) => (
 
 // 2단계: 신청자 정보 입력 컴포넌트
 const ApplicantForm = ({ onBack, onSubmit, isSubmitting, selectedItems, onQuantityChange, onRemoveItem }) => {
-  const [applicant, setApplicant] = useState({ name: "", affiliation: "", phone: "010-", email: "" });
+  const [applicant, setApplicant] = useState({ name: "", position: "", affiliation: "", phone: "010-", email: "" });
   const [errors, setErrors] = useState({});
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
@@ -45,6 +45,8 @@ const ApplicantForm = ({ onBack, onSubmit, isSubmitting, selectedItems, onQuanti
     if (name === 'name') {
       if (/[a-zA-Z]/.test(value)) error = '이름에는 영문을 사용할 수 없습니다.';
       else if (!value) error = '이름을 입력해주세요.';
+    } else if (name === 'position') {
+      if (!value) error = '직급을 입력해주세요.';
     } else if (name === 'affiliation') {
       if (!value) error = '소속을 선택해주세요.';
     } else if (name === 'phone') {
@@ -95,6 +97,7 @@ const ApplicantForm = ({ onBack, onSubmit, isSubmitting, selectedItems, onQuanti
   }
 
   const isNameValid = applicant.name && !validateField('name', applicant.name);
+  const isPositionValid = applicant.position && !validateField('position', applicant.position);
   const isAffiliationValid = applicant.affiliation && !validateField('affiliation', applicant.affiliation);
   const isPhoneValid = applicant.phone && !validateField('phone', applicant.phone);
   const isEmailValid = applicant.email && !validateField('email', applicant.email);
@@ -145,6 +148,18 @@ const ApplicantForm = ({ onBack, onSubmit, isSubmitting, selectedItems, onQuanti
                 {isNameValid && (
                   <AnimatedFormField>
                     <div>
+                      <Label htmlFor="position">직급</Label>
+                      <Input id="position" name="position" placeholder="직급을 입력하세요" value={applicant.position} onChange={handleInputChange} />
+                      {errors.position && <p className="text-sm text-red-500 mt-1">{errors.position}</p>}
+                    </div>
+                  </AnimatedFormField>
+                )}
+              </AnimatePresence>
+
+              <AnimatePresence>
+                {isNameValid && isPositionValid && (
+                  <AnimatedFormField>
+                    <div>
                       <Label htmlFor="affiliation">소속</Label>
                       <Input id="affiliation" name="affiliation" placeholder="소속을 입력하세요" value={applicant.affiliation} onChange={handleInputChange} />
                       {errors.affiliation && <p className="text-sm text-red-500 mt-1">{errors.affiliation}</p>}
@@ -154,7 +169,7 @@ const ApplicantForm = ({ onBack, onSubmit, isSubmitting, selectedItems, onQuanti
               </AnimatePresence>
 
               <AnimatePresence>
-                {isNameValid && isAffiliationValid && (
+                {isNameValid && isPositionValid && isAffiliationValid && (
                   <AnimatedFormField>
                     <div>
                       <Label htmlFor="phone">연락처</Label>
@@ -166,7 +181,7 @@ const ApplicantForm = ({ onBack, onSubmit, isSubmitting, selectedItems, onQuanti
               </AnimatePresence>
 
               <AnimatePresence>
-                {isNameValid && isAffiliationValid && isPhoneValid && (
+                {isNameValid && isPositionValid && isAffiliationValid && isPhoneValid && (
                   <AnimatedFormField>
                     <div>
                       <Label htmlFor="email">이메일</Label>
@@ -181,7 +196,7 @@ const ApplicantForm = ({ onBack, onSubmit, isSubmitting, selectedItems, onQuanti
             <div className="mt-8 flex justify-between">
               <button type="button" onClick={onBack} className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600">이전</button>
               <AnimatePresence>
-                {isNameValid && isAffiliationValid && isPhoneValid && isEmailValid && (
+                {isNameValid && isPositionValid && isAffiliationValid && isPhoneValid && isEmailValid && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                     <button type="submit" disabled={isSubmitting || totalAmount === 0} className="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-blue-600 disabled:bg-gray-400">
                       {isSubmitting ? "신청 접수 중..." : "신청하기"}
@@ -371,8 +386,8 @@ const Index = () => {
   return (
     <div className={step === 3 ? "" : "px-4 py-8"}>
       {step === 1 && (
-        <CheckboxGridPage 
-          onNext={handleNext} 
+        <ProductList
+          onNext={handleNext}
           selectedItems={selectedItems}
           selections={selections}
           onCheckboxChange={handleCheckboxChange}
